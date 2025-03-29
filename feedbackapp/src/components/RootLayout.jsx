@@ -8,7 +8,7 @@ function RootLayout() {
         <div className='' style={{width:'300px'}} >
           <SideBar/>
           </div>
-          <div>
+          <div className=''>
           <Outlet/>
           </div>        
     </div>
