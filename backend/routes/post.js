@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ 
     storage: storage,
     limits: {
-        fileSize: 5 * 1024 * 1024 // 5MB limit
+        fileSize: 5 * 1024 * 1024 
     },
     fileFilter: function (req, file, cb) {
         const filetypes = /jpeg|jpg|png|gif/;
@@ -65,6 +65,22 @@ router.post('/create', upload.single('image'), async (req, res) => {
         console.error('Error in /create route:', error);
         res.status(500).json({ 
             message: 'Error creating post', 
+            error: error.message 
+        });
+    }
+});
+
+router.get('/all', async (req, res) => {
+    try {
+        const posts = await postModel.find()
+            .sort({ date: -1 }) // Sort by date descending (newest first)
+            .exec();
+        
+        res.json(posts);
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        res.status(500).json({ 
+            message: 'Error fetching posts', 
             error: error.message 
         });
     }

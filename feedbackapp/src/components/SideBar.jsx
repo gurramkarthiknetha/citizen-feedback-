@@ -27,6 +27,9 @@ function SideBar() {
         <li>
           <Link to="/settings">Settings</Link>
         </li>
+        <li>
+          <Link to="/posts">Community Issues</Link>
+        </li>
       </ul>
 
       {/* User Info at Bottom */}

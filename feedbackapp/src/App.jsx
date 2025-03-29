@@ -6,6 +6,7 @@ import ReportIssue from './components/ReportIssue'
 import Notifications from './components/Notifications' 
 import Settings from './components/Settings' 
 import Complaints from './components/Complaints'
+import Posts from './components/Posts'
 function App() {
   const browserRouterObj = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ function App() {
         {
           element:<Complaints/>,
           path:'/complaints'
+        },
+        {
+          element:<Posts/>,
+          path:'/posts'
         }
       ]
     }
