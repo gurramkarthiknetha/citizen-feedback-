@@ -33,8 +33,8 @@ function SideBar() {
       <div className="sidebar-user">
         <div className="user-avatar" />
         <div className="user-info">
-          <span className="user-name">John Citizen</span>
-          <span className="user-email">john@example.com</span>
+          <span className="user-name">User</span>
+          <span className="user-email">User@gmail.com</span>
         </div>
       </div>
     </div>

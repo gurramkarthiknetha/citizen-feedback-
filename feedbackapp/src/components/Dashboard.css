@@ -1,0 +1,93 @@
+.sidebar-container {
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(180deg, #3a4a64 0%, #2c3e50 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .sidebar-header {
+    padding: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    flex-grow: 1;
+  }
+  
+  .sidebar-menu li {
+    padding: 0;
+    transition: background-color 0.2s ease;
+  }
+  
+  .sidebar-menu li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .sidebar-menu li a {
+    color: #e6e6e6;
+    text-decoration: none;
+    padding: 15px 20px;
+    display: block;
+    font-size: 16px;
+    transition: all 0.2s ease;
+  }
+  
+  .sidebar-menu li a:hover {
+    color: #ffffff;
+    padding-left: 25px;
+  }
+  
+  .sidebar-user {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e6e6e6;
+    margin-right: 10px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233a4a64"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-name {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .user-email {
+    font-size: 12px;
+    color: #cccccc;
+    margin-top: 2px;
+  }
+  
+  /* Optional: Add active state for the current page */
+  .sidebar-menu li a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-left: 4px solid #5cb3fd;
+    padding-left: 16px;
+  }
