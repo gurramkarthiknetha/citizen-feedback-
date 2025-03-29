@@ -4,9 +4,13 @@ const { createPost, getPosts } = require('../service/post');
 
 router.post('/create', async (req, res) => {
   try {
+    // Log the incoming request for debugging
+    console.log('Received post request:', req.body);
+    
     const post = await createPost(req.body);
     res.status(201).json(post);
   } catch (error) {
+    console.error('Error creating post:', error);
     res.status(500).json({ error: error.message });
   }
 });

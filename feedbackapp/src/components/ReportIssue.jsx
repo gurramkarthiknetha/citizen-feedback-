@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './ReportIssue.css'; // Import CSS file for styling
 
 function ReportIssue() {
@@ -25,8 +26,35 @@ function ReportIssue() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
-    // Implement API call to submit form data
+    try {
+      const formDataToSend = new FormData();
+      for (const key in formData) {
+        formDataToSend.append(key, formData[key]);
+      }
+
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/post/create`, formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.status === 201) {
+        alert('Issue reported successfully!');
+        setFormData({
+          userId: '',
+          title: '',
+          name: '',
+          image: '',
+          priority: 'Medium',
+          category: '',
+          status: 'Open',
+          address: '',
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting issue:', error);
+      alert('Failed to report issue. Please try again.');
+    }
   };
 
   return (
