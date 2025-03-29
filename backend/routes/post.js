@@ -42,14 +42,16 @@ router.post('/create', upload.single('image'), async (req, res) => {
         }
 
         const postData = {
-            ...req.body,
+            title: req.body.title,
+            name: req.body.name,
             image: req.file.path,
-            userId: req.body.userId || '65f4d95a8f894c23c6b33333', // Temporary default userId
+            userId: '65f4d95a8f894c23c6b33333', // Using a default system userId
             tags: {
                 priority: req.body.priority || 'Medium',
                 category: req.body.category || 'General',
                 status: 'Open'
-            }
+            },
+            address: req.body.address
         };
         
         const newPost = new postModel(postData);

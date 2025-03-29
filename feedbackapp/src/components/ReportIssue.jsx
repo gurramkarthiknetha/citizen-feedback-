@@ -4,15 +4,12 @@ import './ReportIssue.css'; // Import CSS file for styling
 
 function ReportIssue() {
   const [formData, setFormData] = useState({
-    userId: '',
     title: '',
-    name: '',
-    image: '',
-    priority: 'Medium',
+    description: '',
+    location: '',
     category: '',
-    status: 'Open',
-    address: '',
   });
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,58 +17,49 @@ function ReportIssue() {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({ ...formData, image: file });
+    const files = Array.from(e.target.files);
+    setUploadedImages(files);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formDataToSend = new FormData();
-      Object.keys(formData).forEach(key => {
-        if (key === 'image' && formData[key] instanceof File) {
-          formDataToSend.append(key, formData[key]);
-        } else if (key !== 'image') {
-          formDataToSend.append(key, formData[key]);
-        }
-      });
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('name', 'Anonymous');
+      formDataToSend.append('category', formData.category);
+      formDataToSend.append('address', formData.location);
+      formDataToSend.append('priority', 'Medium');
 
-      // Add a default userId if not present
-      if (!formData.userId) {
-        formDataToSend.append('userId', '65f4d95a8f894c23c6b33333');
+      // Append the first image file if it exists
+      if (uploadedImages.length > 0) {
+        formDataToSend.append('image', uploadedImages[0]);
       }
 
-      console.log('Sending request to:', `${import.meta.env.VITE_API_URL}/post/create`);
-      const response = await axios({
-        method: 'post',
-        url: `${import.meta.env.VITE_API_URL}/post/create`,
-        data: formDataToSend,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        maxBodyLength: Infinity,
-        maxContentLength: Infinity,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/post/create`,
+        formDataToSend,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
-      if (response.status === 201) {
+      if (response.data) {
         alert('Issue reported successfully!');
         setFormData({
-          userId: '',
           title: '',
-          name: '',
-          image: '',
-          priority: 'Medium',
+          description: '',
+          location: '',
           category: '',
-          status: 'Open',
-          address: '',
         });
+        setUploadedImages([]);
       }
     } catch (error) {
       console.error('Error details:', error);
-      if (error.response) {
-        console.error('Response data:', error.response.data);
-      }
-      alert(`Failed to report issue: ${error.message}`);
+      console.error('Response data:', error.response?.data);
+      alert('Failed to report issue. Please try again.');
     }
   };
 
@@ -80,27 +68,53 @@ function ReportIssue() {
       <div className="report-issue-container">
         <h2 className="form-title">Report an Issue</h2>
         <form onSubmit={handleSubmit} className="report-form">
-          <label>Name:</label>
-          <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter your name" />
-
           <label>Title:</label>
-          <input type="text" name="title" value={formData.title} onChange={handleChange} required placeholder="Title of the issue" />
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+            placeholder="Title of the issue"
+          />
 
-          <label>Priority:</label>
-          <select name="priority" value={formData.priority} onChange={handleChange} required>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
-          </select>
+          <label>Description:</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            placeholder="Describe the issue"
+          />
+
+          <label>Location:</label>
+          <input
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            required
+            placeholder="Enter the location"
+          />
 
           <label>Category:</label>
-          <input type="text" name="category" value={formData.category} onChange={handleChange} required placeholder="Issue category" />
+          <input
+            type="text"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
+            placeholder="Issue category"
+          />
 
-          <label>Address:</label>
-          <input type="text" name="address" value={formData.address} onChange={handleChange} required placeholder="Enter the location" />
-
-          <label>Upload Image:</label>
-          <input type="file" name="image" onChange={handleFileChange} accept="image/*" required />
+          <label>Upload Images:</label>
+          <input
+            type="file"
+            name="images"
+            onChange={handleFileChange}
+            accept="image/*"
+            multiple
+          />
 
           <button type="submit" className="submit-button">Submit</button>
         </form>
