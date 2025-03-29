@@ -1,18 +1,21 @@
-import React from 'react'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import SideBar from './SideBar';
 
-import { Outlet } from 'react-router-dom'
-import SideBar from './SideBar'
 function RootLayout() {
   return (
-    <div className='d-flex'>
-        <div className='' style={{width:'300px'}} >
-          <SideBar/>
-          </div>
-          <div>
-          <Outlet/>
-          </div>        
+    <div style={{ display: 'flex', height: '100vh'}}>
+      {/* Sidebar with scrolling */}
+      <div style={{ width: '350px', overflowY: 'auto' }}>
+        <SideBar />
+      </div>
+
+      {/* Main content area */}
+      <div style={{ flexGrow: 1, overflowY: 'auto'}}>
+        <Outlet />
+      </div>
     </div>
-  )
+  );
 }
 
-export default RootLayout
+export default RootLayout;
