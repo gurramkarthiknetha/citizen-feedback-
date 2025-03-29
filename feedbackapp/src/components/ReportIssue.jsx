@@ -28,14 +28,29 @@ function ReportIssue() {
     e.preventDefault();
     try {
       const formDataToSend = new FormData();
-      for (const key in formData) {
-        formDataToSend.append(key, formData[key]);
+      Object.keys(formData).forEach(key => {
+        if (key === 'image' && formData[key] instanceof File) {
+          formDataToSend.append(key, formData[key]);
+        } else if (key !== 'image') {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
+
+      // Add a default userId if not present
+      if (!formData.userId) {
+        formDataToSend.append('userId', '65f4d95a8f894c23c6b33333');
       }
 
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/post/create`, formDataToSend, {
+      console.log('Sending request to:', `${import.meta.env.VITE_API_URL}/post/create`);
+      const response = await axios({
+        method: 'post',
+        url: `${import.meta.env.VITE_API_URL}/post/create`,
+        data: formDataToSend,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        maxBodyLength: Infinity,
+        maxContentLength: Infinity,
       });
 
       if (response.status === 201) {
@@ -52,8 +67,11 @@ function ReportIssue() {
         });
       }
     } catch (error) {
-      console.error('Error submitting issue:', error);
-      alert('Failed to report issue. Please try again.');
+      console.error('Error details:', error);
+      if (error.response) {
+        console.error('Response data:', error.response.data);
+      }
+      alert(`Failed to report issue: ${error.message}`);
     }
   };
 
